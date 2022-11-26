@@ -1,12 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import {
-  FaTwitter,
-  FaGithub,
-  FaLinkedin,
-  FaFacebook,
-  FaInstagram,
-} from "react-icons/fa";
+import { FaTwitter, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 
 const contributors = [
   {
@@ -41,6 +35,41 @@ const contributors = [
   },
   {
     name: "Abhiram",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Anindh",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Jayesh",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Umesh",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Ghanashyam",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Aaditya",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Ravi Teja",
+    image: "https://avatars.githubusercontent.com/u/55010599?v=4",
+    type: "Student",
+  },
+  {
+    name: "Vamsi",
     image: "https://avatars.githubusercontent.com/u/55010599?v=4",
     type: "Student",
   },

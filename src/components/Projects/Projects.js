@@ -4,6 +4,7 @@ import ProjectCard from "./ProjectCards";
 import radio_amrita from "../../Assets/Projects/radio_amrita.jpeg";
 import blood_donation_camp from "../../Assets/Projects/blood_donation_camp.jpeg";
 import tech_awareness from "../../Assets/Projects/tech_awareness.jpeg";
+import { Link } from "react-router-dom";
 
 const projects_data = [
   {
@@ -52,7 +53,7 @@ function Projects() {
         <h1 className="project-heading">
           SSR Recent<strong className="purple"> Works </strong>
         </h1>
-        <p style={{ color: "white" }}>
+        <p style={{ color: "#242424" }}>
           Here are a few projects that we worked on recently.
         </p>
         <Col className="project-filters">
@@ -122,15 +123,22 @@ function Projects() {
             })
             .map((project, index) => (
               <Col md={4} key={index}>
-                <ProjectCard
-                  imgPath={project.imgPath}
-                  title={project.title}
-                  description={project.description}
-                  year={project.year}
-                  category={project.category}
-                  mentors={project.mentors}
-                  likeCount={project.likes}
-                />
+                <Link
+                  to="/project/1"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <ProjectCard
+                    imgPath={project.imgPath}
+                    title={project.title}
+                    description={project.description}
+                    year={project.year}
+                    category={project.category}
+                    mentors={project.mentors}
+                    likeCount={project.likes}
+                  />
+                </Link>
               </Col>
             ))}
         </Row>

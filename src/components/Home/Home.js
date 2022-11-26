@@ -1,11 +1,56 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import home_banner from "../../Assets/home_banner.png";
+import teaser from "../../Assets/teaser.mp4";
+import { Player } from "video-react";
 
 function Home() {
   return (
-    <Container fluid className="home-about-section" id="about">
-      <Container>
+    <div fluid className="home-about-section" id="about">
+      <div>
+        <div className="video-component">
+          <div className="video-background">
+            <Player playsInline muted={true} autoPlay={true} loop={true}>
+              <source src={teaser} />
+            </Player>
+          </div>
+          <div className="video-overlay"></div>
+          <div className="video-foreground">
+            <Row>
+              <Col md={8} className="video-foreground-content">
+                <h1 style={{ fontSize: "2.6em" }}>
+                  <span
+                    style={{
+                      color: "#f9a826",
+                    }}
+                  >
+                    LET'S KNOW MORE ABOUT SSR
+                  </span>
+                </h1>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <Row>
+          <div className="home-count-details">
+            <div className="count-detail">
+              <h1>10+</h1>
+              <h5>YEARS</h5>
+            </div>
+            <div className="count-detail">
+              <h1>994+</h1>
+              <h5>COMMUNITY PROJECTS</h5>
+            </div>
+            <div className="count-detail">
+              <h1>5688+</h1>
+              <h5>STUDENTS INVOLVED</h5>
+            </div>
+            <div className="count-detail">
+              <h1>272000+</h1>
+              <h5>STUDENT HOURS</h5>
+            </div>
+          </div>
+        </Row>
         <Row>
           <Col md={8} className="home-about-description">
             <h1 style={{ fontSize: "2.6em" }}>
@@ -40,26 +85,6 @@ function Home() {
           </div>
         </Row> */}
         <Row>
-          <div className="home-count-details">
-            <div className="count-detail">
-              <h1>100+</h1>
-              <h5>Projects</h5>
-            </div>
-            <div className="count-detail">
-              <h1>1000+</h1>
-              <h5>Volunteers</h5>
-            </div>
-            <div className="count-detail">
-              <h1>100+</h1>
-              <h5>Partners</h5>
-            </div>
-            <div className="count-detail">
-              <h1>100+</h1>
-              <h5>Events</h5>
-            </div>
-          </div>
-        </Row>
-        <Row>
           <Col className="home-video">
             <div className="home-video-teaser">
               <iframe
@@ -74,8 +99,8 @@ function Home() {
             </div>
           </Col>
         </Row>
-      </Container>
-    </Container>
+      </div>
+    </div>
   );
 }
 

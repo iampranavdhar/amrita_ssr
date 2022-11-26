@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/amrita_logo.png";
-import Button from "react-bootstrap/Button";
+import light_logo from "../Assets/amrita_logo_lightmode.png";
 import { Link } from "react-router-dom";
-import { CgGitFork } from "react-icons/cg";
-import { ImBlog } from "react-icons/im";
 import {
-  AiFillStar,
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
 } from "react-icons/ai";
-
-import { CgFileDocument } from "react-icons/cg";
+import { GrProjects } from "react-icons/gr";
 
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+
+  const [pathName, setPathName] = useState(window.location.pathname);
+
+  console.log(pathName, "pathName");
 
   function scrollHandler() {
     if (window.scrollY >= 20) {
@@ -39,7 +39,11 @@ function NavBar() {
     >
       <Container>
         <Navbar.Brand href="/" className="d-flex">
-          <img src={logo} className="img-fluid logo" alt="brand" />
+          <img
+            src={window.scrollY >= 20 ? logo : light_logo}
+            className="img-fluid logo"
+            alt="brand"
+          />
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"
@@ -54,26 +58,41 @@ function NavBar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto" defaultActiveKey="#home">
             <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
+              <Nav.Link
+                as={Link}
+                to="/"
+                onClick={() => {
+                  updateExpanded(false);
+                  setPathName("/");
+                }}
+                style={{
+                  color:
+                    window.scrollY >= 20
+                      ? "#fff"
+                      : pathName === "/"
+                      ? "#fff"
+                      : "#000",
+                }}
+              >
                 <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
               </Nav.Link>
             </Nav.Item>
-
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
-              </Nav.Link>
-            </Nav.Item>
-
             <Nav.Item>
               <Nav.Link
                 as={Link}
                 to="/project"
-                onClick={() => updateExpanded(false)}
+                onClick={() => {
+                  updateExpanded(false);
+                  setPathName("/project");
+                }}
+                style={{
+                  color:
+                    window.scrollY >= 20
+                      ? "#fff"
+                      : pathName === "/"
+                      ? "#fff"
+                      : "#000",
+                }}
               >
                 <AiOutlineFundProjectionScreen
                   style={{ marginBottom: "2px" }}
@@ -84,8 +103,42 @@ function NavBar() {
             <Nav.Item>
               <Nav.Link
                 as={Link}
+                to="/testimonials"
+                onClick={() => {
+                  updateExpanded(false);
+                  setPathName("/testimonials");
+                }}
+                style={{
+                  color:
+                    window.scrollY >= 20
+                      ? "#fff"
+                      : pathName === "/"
+                      ? "#fff"
+                      : "#000",
+                }}
+              >
+                <AiOutlineFundProjectionScreen
+                  style={{ marginBottom: "2px" }}
+                />{" "}
+                Testimonials
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
                 to="/contributors"
-                onClick={() => updateExpanded(false)}
+                onClick={() => {
+                  updateExpanded(false);
+                  setPathName("/contributors");
+                }}
+                style={{
+                  color:
+                    window.scrollY >= 20
+                      ? "#fff"
+                      : pathName === "/"
+                      ? "#fff"
+                      : "#000",
+                }}
               >
                 <AiOutlineFundProjectionScreen
                   style={{ marginBottom: "2px" }}
