@@ -8,12 +8,16 @@ export default function Card(props) {
     <div className="project-card">
       <div className="project-card-header">
         <div className="project-card-title-group">
-          <h5 className="project-card-title">{props.title}</h5>
+          <h5 className="project-card-title">{props.name}</h5>
           <p className="project-card-category">{props.category}</p>
         </div>
       </div>
       <img className="project-card-image" src={props.imgPath} alt="Logo" />
-      <div className="project-card-text">{props.description}</div>
+      <div className="project-card-text">
+        {props.description.length > 100
+          ? props.description.substring(0, 100) + "..."
+          : props.description}
+      </div>
       <div className="project-card-footer">
         <div className="project-card-footer-bar">
           <div>
@@ -30,7 +34,7 @@ export default function Card(props) {
                 alt="Logo"
               />
             )}
-            <b className="likes-count">{props.likeCount}</b>
+            <b className="likes-count">{220}</b>
           </div>
           <div className="project-card-date">{props.year}</div>
         </div>

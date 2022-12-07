@@ -11,7 +11,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import "./style.css";
+import "./style2.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Contributors from "./components/Contributors/Contributors";

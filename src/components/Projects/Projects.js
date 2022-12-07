@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
 import radio_amrita from "../../Assets/Projects/radio_amrita.jpeg";
 import blood_donation_camp from "../../Assets/Projects/blood_donation_camp.jpeg";
 import tech_awareness from "../../Assets/Projects/tech_awareness.jpeg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { Bars } from "react-loader-spinner";
 
 const projects_data = [
   {
     id: 1,
-    title: "Blood Donation Camp",
+    name: "Blood Donation Camp",
     description:
       "Blood Donation Camp is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
     imgPath: blood_donation_camp,
@@ -20,7 +23,7 @@ const projects_data = [
   },
   {
     id: 2,
-    title: "Radio Amrita",
+    name: "Radio Amrita",
     description:
       "Radio Amrita is a student run radio station of Amrita Vishwa Vidyapeetham, Amritapuri. It is a platform for the students to showcase their talents and to learn the art of broadcasting.",
     imgPath: radio_amrita,
@@ -31,7 +34,7 @@ const projects_data = [
   },
   {
     id: 3,
-    title: "Technical Awareness Program",
+    name: "Technical Awareness Program",
     description:
       "Technical Awareness Program is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
     imgPath: tech_awareness,
@@ -44,10 +47,88 @@ const projects_data = [
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [mentors, setMentors] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedMentor, setSelectedMentor] = useState("All");
+  const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("All");
+  const [projects, setProjects] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  console.log(selectedCategory);
-  return (
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const res = await axios("https://amritassr.azurewebsites.net/projects/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setProjects(res.data.Projects);
+      setMentors([
+        ...new Set(
+          projects
+            .map((array_set) => {
+              return array_set;
+            })
+            .map((set_of_20) =>
+              set_of_20.map((project) => {
+                return project.mentor;
+              })
+            )
+            .flat()
+        ),
+      ]);
+      setCategories([
+        ...new Set(
+          projects
+            .map((array_set) => {
+              return array_set;
+            })
+            .map((set_of_20) =>
+              set_of_20.map((project) => {
+                return project.category;
+              })
+            )
+            .flat()
+        ),
+      ]);
+      setYears([
+        ...new Set(
+          projects
+            .map((array_set) => {
+              return array_set;
+            })
+            .map((set_of_20) =>
+              set_of_20.map((project) => {
+                return project.year;
+              })
+            )
+            .flat()
+        ),
+      ]);
+    };
+    fetchProjects();
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
+
+  console.log(mentors, "loader");
+
+  return loading ? (
+    <div className="loading_screen">
+      <div className="loader">
+        <Bars
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="bars-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    </div>
+  ) : (
     <Container fluid className="project-section">
       <Container>
         <h1 className="project-heading">
@@ -67,16 +148,28 @@ function Projects() {
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
                   <option value="all">All</option>
-                  {[
-                    ...new Set(
-                      projects_data.map((project) => {
-                        return project.category;
-                      })
-                    ),
-                  ].map((category, index) => {
+                  {categories.map((category, index) => {
                     return (
                       <option value={category} key={index}>
                         {category}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div className="projects-filter-dropdown">
+              <p className="projects-filter-dropdown-text">Mentor</p>
+              <div className="select">
+                <select
+                  value={selectedMentor}
+                  onChange={(e) => setSelectedMentor(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  {mentors?.map((mentor_name, index) => {
+                    return (
+                      <option value={mentor_name} key={index}>
+                        {mentor_name}
                       </option>
                     );
                   })}
@@ -91,13 +184,7 @@ function Projects() {
                   onChange={(e) => setSelectedYear(e.target.value)}
                 >
                   <option value="all">All</option>
-                  {[
-                    ...new Set(
-                      projects_data.map((project) => {
-                        return project.year;
-                      })
-                    ),
-                  ].map((year, index) => {
+                  {years?.map((year, index) => {
                     return (
                       <option value={year} key={index}>
                         {year}
@@ -110,38 +197,95 @@ function Projects() {
           </div>
         </Col>
         <Row style={{ justifyContent: "flext-start", paddingBottom: "10px" }}>
-          {projects_data
-            .sort((a, b) => b.likes - a.likes)
-            .filter((project) => {
-              if (selectedCategory.toLocaleLowerCase() === "all")
-                return project;
-              else if (
-                project.category.toLocaleLowerCase() ===
-                selectedCategory.toLocaleLowerCase()
-              )
-                return project;
-            })
-            .map((project, index) => (
-              <Col md={4} key={index}>
-                <Link
-                  to="/project/1"
-                  style={{
-                    textDecoration: "none",
-                  }}
-                >
-                  <ProjectCard
-                    imgPath={project.imgPath}
-                    title={project.title}
-                    description={project.description}
-                    year={project.year}
-                    category={project.category}
-                    mentors={project.mentors}
-                    likeCount={project.likes}
-                  />
-                </Link>
-              </Col>
-            ))}
+          {selectedMentor.toLowerCase() === "all"
+            ? projects[currentPage]
+                // .sort((a, b) => b.likes - a.likes)
+                ?.filter((project) => {
+                  if (selectedCategory.toLocaleLowerCase() === "all")
+                    return project;
+                  else if (
+                    project.category.toLocaleLowerCase() ===
+                    selectedCategory.toLocaleLowerCase()
+                  )
+                    return project;
+                })
+                .map((project, index) => (
+                  <Col md={4} key={index}>
+                    <Link
+                      to="/project/1"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <ProjectCard
+                        imgPath={blood_donation_camp}
+                        name={project.name}
+                        description={project.description}
+                        year={project.year}
+                        category={project.category}
+                        mentors={project.mentors}
+                        likeCount={project.likes}
+                      />
+                    </Link>
+                  </Col>
+                ))
+            : projects
+                .flat()
+                .filter((project) => {
+                  return (
+                    project.mentor.toLowerCase() ===
+                    selectedMentor.toLowerCase()
+                  );
+                })
+                ?.map((project, index) => (
+                  <Col md={4} key={index}>
+                    <Link
+                      to="/project/1"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      <ProjectCard
+                        imgPath={blood_donation_camp}
+                        name={project.name}
+                        description={project.description}
+                        year={project.year}
+                        category={project.category}
+                        mentors={project.mentors}
+                        likeCount={project.likes}
+                      />
+                    </Link>
+                  </Col>
+                ))}
         </Row>
+        {selectedMentor.toLowerCase() === "all" ? (
+          <Row>
+            <div className="projects-pagination">
+              <div
+                className="projects-pagination-button"
+                onClick={() => {
+                  if (currentPage > 0) setCurrentPage(currentPage - 1);
+                }}
+              >
+                <GrFormPrevious className="pagination_icon" color="#fff" />
+              </div>
+              <div className="projects-pagination-button number_indicator">
+                <p>
+                  {currentPage + 1} of {projects.length}
+                </p>
+              </div>
+              <div
+                className="projects-pagination-button"
+                onClick={() => {
+                  if (currentPage < projects.length - 1)
+                    setCurrentPage(currentPage + 1);
+                }}
+              >
+                <GrFormNext className="pagination_icon" color="#fff" />
+              </div>
+            </div>
+          </Row>
+        ) : null}
       </Container>
     </Container>
   );

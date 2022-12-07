@@ -18,8 +18,6 @@ function NavBar() {
 
   const [pathName, setPathName] = useState(window.location.pathname);
 
-  console.log(pathName, "pathName");
-
   function scrollHandler() {
     if (window.scrollY >= 20) {
       updateNavbar(true);

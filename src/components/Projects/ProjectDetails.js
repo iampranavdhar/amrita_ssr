@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 export default function ProjectDetails() {
   const { id } = useParams();
-  console.log(id, "id");
 
   return (
     <div class="wrapper">
