@@ -64,27 +64,25 @@ function Projects() {
           "Content-Type": "application/json",
         },
       });
-      setProjects(res.data.Projects);
+      setProjects(res?.data?.Projects);
       setMentors([
         ...new Set(
-          projects
-            .map((array_set) => {
-              return array_set;
-            })
-            .map((set_of_20) =>
+          res?.data?.Projects?.map((array_set) => {
+            return array_set;
+          })
+            ?.map((set_of_20) =>
               set_of_20.map((project) => {
                 return project.mentor;
               })
             )
-            .flat()
+            ?.flat()
         ),
       ]);
       setCategories([
         ...new Set(
-          projects
-            .map((array_set) => {
-              return array_set;
-            })
+          res?.data?.Projects.map((array_set) => {
+            return array_set;
+          })
             .map((set_of_20) =>
               set_of_20.map((project) => {
                 return project.category;
@@ -95,10 +93,9 @@ function Projects() {
       ]);
       setYears([
         ...new Set(
-          projects
-            .map((array_set) => {
-              return array_set;
-            })
+          res?.data?.Projects.map((array_set) => {
+            return array_set;
+          })
             .map((set_of_20) =>
               set_of_20.map((project) => {
                 return project.year;
