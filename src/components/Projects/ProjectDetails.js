@@ -1,88 +1,151 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Bars } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 
 export default function ProjectDetails() {
   const { id } = useParams();
 
-  return (
-    <div class="wrapper">
-      <div class="scroll-indicator"></div>
-      <div class="content-wrapper">
-        <div class="content">
-          <div class="poster">
-            <div className="background-image"></div>
-            <div class="poster-title">
-              <h1>Blood Donation Camp</h1>
-              <div class="line"></div>
+  const [projectDetails, setProjectDetails] = useState([]);
+  const [teamDetails, setTeamDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [projectImages, setProjectImages] = useState([]);
+
+  const fetchImagesFromGithub = async () => {
+    setProjectImages([]);
+    for (let i = 1; i < 6; i++) {
+      setProjectImages((prev) => [
+        ...prev,
+        `https://raw.githubusercontent.com/pranav2k2k/photos/main/img/${id}/${id}_IMG${i}.jpeg`,
+      ]);
+    }
+  };
+
+  console.log(projectImages, "iomages");
+
+  useEffect(() => {
+    setProjectImages([]);
+    setProjectDetails([]);
+    const fetchProjectDetails = async () => {
+      const response = await axios.get(
+        `http://amritassr.azurewebsites.net/projects/team/${id}/`
+      );
+      console.log(response.data);
+      setProjectDetails(response.data["Project Details"]);
+      setTeamDetails(response.data["Team Details"]);
+      setTimeout(() => {
+        setIsLoading(false);
+      });
+    };
+    fetchProjectDetails();
+    fetchImagesFromGithub();
+  }, [id]);
+
+  console.log(projectDetails);
+  console.log(teamDetails);
+
+  return isLoading ? (
+    <div className="loading_screen">
+      <div className="loader">
+        <Bars
+          height="80"
+          width="80"
+          color="rgba(222, 130, 235, 0.911)"
+          ariaLabel="bars-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    </div>
+  ) : (
+    <div className="wrapper">
+      <div className="scroll-indicator"></div>
+      <div className="content-wrapper">
+        <div className="content">
+          <div className="poster">
+            <div className="background-image">
+              <img src={projectImages[0]} alt="" />
             </div>
-            <div class="poster-buttons">
+            <div className="overlay"></div>
+            <div className="poster-title">
+              <h1>{projectDetails.name}</h1>
+              <div className="line"></div>
+            </div>
+            <div className="poster-buttons">
               <div>
                 <svg
                   viewBox="0 0 24 24"
                   width="24"
                   height="24"
                   stroke="currentColor"
-                  stroke-width="2"
+                  strokeWidth="2"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="css-i6dzq1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="css-i6dzq1"
                 >
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="info">
-            <div class="block published">
-              <div class="mini-title">Published</div>
+          <div className="info">
+            <div className="block published">
+              <div className="mini-title">Published</div>
               23.11.2022
             </div>
-            <div class="block published">
-              <div class="mini-title">Views</div>3 251
+            <div className="block published">
+              <div className="mini-title">Views</div>3 251
             </div>
-            <div class="block published">
-              <div class="mini-title">Likes</div>
+            <div className="block published">
+              <div className="mini-title">Likes</div>
               156
             </div>
-            <div class="block published">
-              <div class="mini-title">Reading</div>2 min
+            <div className="block published">
+              <div className="mini-title">Reading</div>2 min
             </div>
           </div>
-          <div class="words">
+          <div className="words">
             <p>
-              Donating blood can be considered as one of the most noble deeds
-              that can be done by us. One unit of blood can save up to three
-              lives. The requirement for blood is increasing day by daywith an
-              increase in diseases. Several lives are lost due to no supply of
-              blood. Blood cannot be stored for a long time; therefore it is
-              needed that healthy people donate their blood on a regular basis,
-              in order to ensure no shortage of blood for the needy ones.
+              <strong className="project-details-sub-heading">
+                Mentor: {projectDetails.mentor}
+              </strong>
             </p>
             <p>
-              Blood donation is one of the noblest and greatest donations a man
-              can make. Blood is our life-sap and has no substitute. Several
-              lives are lost because of the unavailability of blood. Doctors
-              need blood for transfusing it in the body of a person after the
-              operation and in similar situations when a lot of blood flows out
-              of the person’s body. People should understand that their little
-              contribution can prove to be of great help to others in such
-              difficult situations.
+              <strong className="project-details-sub-heading">
+                Project Description
+              </strong>
             </p>
+            <p>{projectDetails.description}</p>
             <p>
-              Blood donation is a completely safe process. It includes a blood
-              test considering the hemoglobin levels of the donor and the type
-              of blood donated then a set of questionnaires for the donor
-              regarding his health history. The donor has a test regarding the
-              blood stem cells, for his future blood requirements in case of
-              emergency and a record is maintained for it.
+              <strong className="project-details-sub-heading">
+                Team Members
+              </strong>
             </p>
-          </div>
-          <div class="quote">
-            <p> Rakth daan karke toh dekho, ACHHA LAGTA HAI</p>
-          </div>
-          <div class="author">
-            <div class="image"></div>
+            <table className="team-members-table">
+              <tr>
+                <th>Member Name</th>
+                <th>Roll Number</th>
+              </tr>
+              {teamDetails.map((teamMember) => (
+                <tr>
+                  <td>{teamMember.name}</td>
+                  <td>{teamMember.roll}</td>
+                </tr>
+              ))}
+            </table>
+            <p>
+              <strong className="project-details-sub-heading">Gallery</strong>
+            </p>
+            <div className="image-gallery">
+              {projectImages.map((image) => (
+                <div className="image">
+                  <img src={image} alt="" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

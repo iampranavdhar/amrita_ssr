@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Player } from "video-react";
 import teaser from "../../Assets/teaser.mp4";
 
 function Home() {
+  // const [yearsCount, setYearsCount] = useState(0);
+  // const [projectsCount, setProjectsCount] = useState(0);
+  // const [studentsCount, setStudentsCount] = useState(0);
+  // const [hoursCount, setHoursCount] = useState(0);
+
+  // const yearsTargetNumber = 10;
+  // const projectsTargetNumber = 994;
+  // const studentsTargetNumber = 5688;
+  // const hoursTargetNumber = 272000;
+
+  // // increase all the counters and come to end at the same time using useEffect
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (yearsCount < yearsTargetNumber) {
+  //       setYearsCount((prevCount) => prevCount + 1);
+  //     } else if (yearsCount === yearsTargetNumber) {
+  //       clearInterval(interval);
+  //     }
+  //     if (projectsCount < projectsTargetNumber) {
+  //       setProjectsCount((prevCount) => prevCount + 1);
+  //     }
+  //     if (studentsCount < studentsTargetNumber) {
+  //       setStudentsCount((prevCount) => prevCount + 1);
+  //     }
+  //     if (hoursCount < hoursTargetNumber) {
+  //       setHoursCount((prevCount) => prevCount + 1);
+  //     }
+  //   }, 1);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   return (
     <div>
       <section id="hero" class="d-flex align-items-center">

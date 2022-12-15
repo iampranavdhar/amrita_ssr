@@ -106,10 +106,10 @@ function Projects() {
       ]);
     };
     fetchProjects();
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 4000);
   }, []);
 
-  console.log(mentors, "loader");
+  console.log(projects, "projects");
 
   return loading ? (
     <div className="loading_screen">
@@ -117,7 +117,7 @@ function Projects() {
         <Bars
           height="80"
           width="80"
-          color="#4fa94d"
+          color="rgba(222, 130, 235, 0.911)"
           ariaLabel="bars-loading"
           wrapperStyle={{}}
           wrapperClass=""
@@ -198,23 +198,31 @@ function Projects() {
             ? projects[currentPage]
                 // .sort((a, b) => b.likes - a.likes)
                 ?.filter((project) => {
-                  if (selectedCategory.toLocaleLowerCase() === "all")
+                  if (selectedCategory.toLocaleLowerCase() === "all") {
+                    if (project.name.toLocaleLowerCase() === "yettoupdate") {
+                      return;
+                    }
                     return project;
-                  else if (
+                  } else if (
                     project.category.toLocaleLowerCase() ===
                     selectedCategory.toLocaleLowerCase()
-                  )
+                  ) {
+                    if (project.name.toLocaleLowerCase() === "yettoupdate") {
+                      return;
+                    }
                     return project;
+                  }
                 })
                 .map((project, index) => (
                   <Col md={4} key={index}>
                     <Link
-                      to="/project/1"
+                      to={`/project/${project.projectId}`}
                       style={{
                         textDecoration: "none",
                       }}
                     >
                       <ProjectCard
+                        projectId={project.projectId}
                         imgPath={blood_donation_camp}
                         name={project.name}
                         description={project.description}
@@ -229,6 +237,9 @@ function Projects() {
             : projects
                 .flat()
                 .filter((project) => {
+                  if (project.name.toLocaleLowerCase() === "yettoupdate") {
+                    return;
+                  }
                   return (
                     project.mentor.toLowerCase() ===
                     selectedMentor.toLowerCase()
@@ -237,7 +248,7 @@ function Projects() {
                 ?.map((project, index) => (
                   <Col md={4} key={index}>
                     <Link
-                      to="/project/1"
+                      to={`/project/${project.projectId}`}
                       style={{
                         textDecoration: "none",
                       }}
