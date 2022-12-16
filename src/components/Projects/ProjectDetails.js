@@ -146,6 +146,22 @@ export default function ProjectDetails() {
                 </div>
               ))}
             </div>
+            <p>
+              <strong className="project-details-sub-heading">
+                Project Video
+              </strong>
+            </p>
+            <div className="project_video">
+              <iframe
+                width="560"
+                height="315"
+                src={projectDetails.youtubeLink}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>

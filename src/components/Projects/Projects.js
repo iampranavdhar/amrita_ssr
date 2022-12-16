@@ -2,48 +2,47 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
 import radio_amrita from "../../Assets/Projects/radio_amrita.jpeg";
-import blood_donation_camp from "../../Assets/Projects/blood_donation_camp.jpeg";
 import tech_awareness from "../../Assets/Projects/tech_awareness.jpeg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { Bars } from "react-loader-spinner";
 
-const projects_data = [
-  {
-    id: 1,
-    name: "Blood Donation Camp",
-    description:
-      "Blood Donation Camp is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
-    imgPath: blood_donation_camp,
-    year: "2022",
-    category: "Health",
-    mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
-    likes: 10,
-  },
-  {
-    id: 2,
-    name: "Radio Amrita",
-    description:
-      "Radio Amrita is a student run radio station of Amrita Vishwa Vidyapeetham, Amritapuri. It is a platform for the students to showcase their talents and to learn the art of broadcasting.",
-    imgPath: radio_amrita,
-    year: "2022",
-    category: "Entertainment",
-    mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
-    likes: 25,
-  },
-  {
-    id: 3,
-    name: "Technical Awareness Program",
-    description:
-      "Technical Awareness Program is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
-    imgPath: tech_awareness,
-    year: "2022",
-    category: "Technical",
-    mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
-    likes: 45,
-  },
-];
+// const projects_data = [
+//   {
+//     id: 1,
+//     name: "Blood Donation Camp",
+//     description:
+//       "Blood Donation Camp is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
+//     imgPath: blood_donation_camp,
+//     year: "2022",
+//     category: "Health",
+//     mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
+//     likes: 10,
+//   },
+//   {
+//     id: 2,
+//     name: "Radio Amrita",
+//     description:
+//       "Radio Amrita is a student run radio station of Amrita Vishwa Vidyapeetham, Amritapuri. It is a platform for the students to showcase their talents and to learn the art of broadcasting.",
+//     imgPath: radio_amrita,
+//     year: "2022",
+//     category: "Entertainment",
+//     mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
+//     likes: 25,
+//   },
+//   {
+//     id: 3,
+//     name: "Technical Awareness Program",
+//     description:
+//       "Technical Awareness Program is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives. It is a platform where people can donate blood and save lives.",
+//     imgPath: tech_awareness,
+//     year: "2022",
+//     category: "Technical",
+//     mentors: "Dr. Suresh Kumar, Dr. Prem Kumar",
+//     likes: 45,
+//   },
+// ];
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -88,6 +87,9 @@ function Projects() {
                 return project.category;
               })
             )
+            .map((category) => {
+              return category.flat();
+            })
             .flat()
         ),
       ]);
@@ -108,8 +110,6 @@ function Projects() {
     fetchProjects();
     setTimeout(() => setLoading(false), 4000);
   }, []);
-
-  console.log(projects, "projects");
 
   return loading ? (
     <div className="loading_screen">
@@ -204,8 +204,9 @@ function Projects() {
                     }
                     return project;
                   } else if (
-                    project.category.toLocaleLowerCase() ===
-                    selectedCategory.toLocaleLowerCase()
+                    project.category
+                      .map((category) => category.toLowerCase())
+                      .includes(selectedCategory.toLowerCase())
                   ) {
                     if (project.name.toLocaleLowerCase() === "yettoupdate") {
                       return;
@@ -223,7 +224,6 @@ function Projects() {
                     >
                       <ProjectCard
                         projectId={project.projectId}
-                        imgPath={blood_donation_camp}
                         name={project.name}
                         description={project.description}
                         year={project.year}
@@ -239,10 +239,18 @@ function Projects() {
                 .filter((project) => {
                   if (project.name.toLocaleLowerCase() === "yettoupdate") {
                     return;
+                  } else if (selectedCategory.toLowerCase() === "all") {
+                    return (
+                      project.mentor.toLowerCase() ===
+                      selectedMentor.toLowerCase()
+                    );
                   }
                   return (
                     project.mentor.toLowerCase() ===
-                    selectedMentor.toLowerCase()
+                      selectedMentor.toLowerCase() &&
+                    project.category
+                      .map((category) => category.toLowerCase())
+                      .includes(selectedCategory.toLowerCase())
                   );
                 })
                 ?.map((project, index) => (
@@ -254,7 +262,6 @@ function Projects() {
                       }}
                     >
                       <ProjectCard
-                        imgPath={blood_donation_camp}
                         name={project.name}
                         description={project.description}
                         year={project.year}
