@@ -86,6 +86,9 @@ const contributors = [
 ];
 
 export default function Contributors() {
+  useEffect(() => {
+    document.title = "SSR | Contributors";
+  }, []);
   return (
     <Container fluid className="contributors-section">
       <Container>

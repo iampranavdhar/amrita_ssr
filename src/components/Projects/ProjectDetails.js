@@ -45,6 +45,10 @@ export default function ProjectDetails() {
   console.log(projectDetails);
   console.log(teamDetails);
 
+  useEffect(() => {
+    document.title = `Project | ${id}`;
+  }, []);
+
   return isLoading ? (
     <div className="loading_screen">
       <div className="loader">

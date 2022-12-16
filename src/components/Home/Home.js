@@ -34,6 +34,10 @@ function Home() {
   //   return () => clearInterval(interval);
   // }, []);
 
+  useEffect(() => {
+    document.title = "SSR | Home";
+  }, []);
+
   return (
     <div>
       <section id="hero" class="d-flex align-items-center">

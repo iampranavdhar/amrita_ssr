@@ -111,6 +111,10 @@ function Projects() {
     setTimeout(() => setLoading(false), 4000);
   }, []);
 
+  useEffect(() => {
+    document.title = "SSR | Projects";
+  }, []);
+
   return loading ? (
     <div className="loading_screen">
       <div className="loader">
